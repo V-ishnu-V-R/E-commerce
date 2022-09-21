@@ -1,0 +1,134 @@
+{{! <head>
+    <link rel="stylesheet" href="/css/users-style/signup.css">
+</head> }}
+<section class="h-100 h-custom" style="background-color: #8fc4b7;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+            class="w-100"
+            style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+            alt="Sample photo"
+          />
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
+
+            <form class="px-md-2" id="userSignup" method="post" action="/signup">
+
+              <div class="form-outline mb-4">
+                <input type="text" name="fname" id="fname" class="form-control" />
+                <label class="form-label" for="fname">First Name</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" name="lname" id="lname" class="form-control" />
+                <label class="form-label" for="lname">Last name</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="email" name="email" id="email" class="form-control" />
+                <label class="form-label" for="email">E mail</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="number" name="number" id="number" class="form-control" />
+                <label class="form-label" for="number">Mobile</label>
+              </div>
+              <div class="form-outline mb-4">       
+                <input type="password" name="password" id="password" class="form-control" />
+                <label class="form-label" for="password">Password</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" />
+                <label class="form-label" for="confirmPassword">Confirm Password</label>
+              </div>
+
+              <button type="submit" class="btn btn-success btn-lg mb-1">
+                <a  style="text-decoration:none; color :white" type="submit">
+                  Submit
+                </a></button>
+              <br /><br />
+              <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an
+                account?
+                <a href="/login" style="color: #393f81;">Login here</a></p>
+              <a href="#!" class="small text-muted">Terms of use.</a>
+              <a href="#!" class="small text-muted">Privacy policy</a>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<style>
+    .error {
+        color: rgb(253, 5, 5);
+    }
+</style>
+<script>
+  jQuery.validator.addMethod("lettersonly", function(value, element) {
+  return this.optional(element) || /^[a-z]+$/i.test(value);
+}, "Letters only please"); 
+
+    $("#userSignup").validate({
+
+
+        rules: {
+            fname: {
+                required: true,
+                minlength: 2,
+                lettersonly:true
+
+            },
+            lname: {
+                required: true,
+                minlength: 2,
+                lettersonly:true
+            },
+
+            email: {
+                required: true,
+                email: true
+            },
+
+            number: {
+                required: true,
+                minlength: 10,
+                maxlength:10
+            },
+
+            password: {
+                required: true,
+                minlength: 6,
+                maxlength: 10
+
+            },
+
+            confirmPassword: {
+                required: true,
+                equalTo: '#password',
+                minlength: 6,
+                maxlength: 10
+            }
+
+
+        },
+        messages: {
+            Password: {
+                required: "the password is required"
+
+            },
+            ConfirmPassword: {
+                equalTo: "enter the same password"
+
+            },
+        }
+    })
+
+
+</script>

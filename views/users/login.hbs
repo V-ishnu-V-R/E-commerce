@@ -1,0 +1,56 @@
+<head>
+  <link rel="stylesheet" href="/css/users-style/login.css" />
+</head>
+<div class="wrapper">
+  <div class="logo">
+    <img src="/css/users-style/Timeless-logos.jpeg" alt="logo" />
+  </div>
+  {{#if msg}}
+    <p>{{msg}}</p>
+  {{/if}}
+  <div class="text-center mt-4 name">
+    Timeless
+  </div>
+  <form class="p-3 mt-3" id="userlogin" action="/login" method="post">
+
+    <div class="form-field d-flex align-items-center">
+
+      <span class="far fa-user"></span>
+      <input type="email" name="email" id="userName" placeholder="Email" />
+    </div>
+        <label id="userName-error" class="error" for="userName">  </label>
+    
+    <div class="form-field d-flex align-items-center">
+      <span class="fas fa-key"></span>
+      <input type="password" name="password" id="pwd" placeholder="Password" />
+    </div>
+    <label id="pwd-error" class="error" for="pwd"> </label>
+    <button type="submit" class="btn mt-3">Login</button>
+  </form>
+  <div class="text-center fs-6">
+    <a href="#">Forget password?</a>
+    or
+    <a href="/signup">Sign up</a>
+  </div>
+</div>
+
+{{! form validation }}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"
+></script>
+<style>
+  .error{ color: rgb(242, 0, 0); }
+</style>
+<script>
+  $("#userlogin").validate({ rules: { email: { required: true, email:true },
+  password: { required: true, minlength:5 } }, messages: { password: { required:
+  "This field is required", minlength:"Your Password should contain 6 letters" } } })
+</script>
+{{! form validation }}
+
+{{! admin style login pager }}
