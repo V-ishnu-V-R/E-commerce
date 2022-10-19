@@ -1,301 +1,235 @@
 const User = require("../models/userModel");
-const Product=require("../models/productModel")
+const Product = require("../models/productModel");
+const Category=require("../models/categoryModel")
 var express = require("express");
 const bcrypt = require("bcrypt");
 var router = express.Router();
 var mongoose = require("mongoose");
-var session =require("express-session")
-const Otp=require("../controller/otp-controller")
-const process=require("process");
-const { response } = require("../app");
+var session = require("express-session");
+const twilioController = require("./otp-controller");
+const process = require("process");
+const count=require("../middlewares/cartWishCount")
 
-exports.getHome =async function (req, res, next) {
-  const product= await Product.find().lean()
-  console.log("fffffffffffffffffffffffffff",product);
-  res.render("index",{product});
+const cartModel=require("../models/cartModel")
+const Razorpay=require("../controller/razorpay-controller")
+const addressModel=require("../models/addressModel")
+const orderModel=require("../models/orderModel")
+const  checkOut=require("../controller/check-controller")
+const order=require("../controller/order-controller")
+const bannerModel=require("../models/bannerModel")
+
+
+
+
+// getcartcount= async function(req,res){
+// let cart=await cartModel.findOne({userId:req.session.user._id}).lean()
+// let cartCount=0;
+// if(cart){
+//   cartCount=cart.products.length
+  
+// }
+// return cartCount;
+// } 
+
+
+
+
+exports.getHome = async function (req, res, next) {
+  
+ 
+  const product = await Product.find().populate('category').lean();
+  //this will have the details of the product with category as reference will get all the category deatails becuse we have populated the data
+  //without poopulate means it will have only object id but not the details about the category  
+
+
+let categoryData=await Category.find().lean()
+let bannerData=await bannerModel.find().populate('product').lean()
+// let cartcount= await count.getCartCount(req,res);
+//  let wishlistcount=await count.getWishlistCount(req,res);  //no session means no cartcount
+
+ 
+
+  let session = req.session;
+ 
+  res.render("index", { product, session ,categoryData,bannerData});
 };
+
+
+
 
 exports.getLogin = function (req, res, next) {
-  res.render("users/login");
+  res.render("users/login", { noHeaders: true });
 };
+
+
+
 exports.getSignup = function (req, res, next) {
-  res.render("users/signup");
+  res.render("users/signup", { noHeaders: true });
 };
-exports.getOtp=function(req,res){
-  res.render("users/otp")
+
+// exports.getError = function (req, res, next) {
+//   res.render("users/error", { noHeaders: true });
+// };
+
+
+
+// exports.getOtp = function (req, res) {
+  
+//   res.render("users/otp");
+// };
+
+
+
+exports.postOtp= async function(req,res){
+  
+  const userdata = await User.findOne({ _id: req.params.id }).lean();
+ //console.log(userdata);
+ // console.log(req.body.otp);
+  let otps = req.body.otp;
+  let verification=await twilioController.verifyOtp(otps, userdata);
+  if (verification) {
+
+    //req.session.loggedIn = true;
+    //req.session.userId = userdata._id;
+    res.redirect('/login');
+  }
+  else {
+    await User.findOneAndDelete({ _id: req.params.id }).lean();
+    res.redirect('/signup')
+  }
+
 }
 
+
+
+
+
 /////////////SIGNUP ACTION/////////////////
-exports.signupAction= async function(req,res,next){
+exports.signupAction = async function (req, res, next) {
   const olduser = await User.findOne({ email: req.body.email });
-      if (olduser) {
-        console.log("checking for old user");
-        return res.json({ status: "faileddd" });
-      }
-      
-      const newUser = await User.create(req.body)
-      // console.log(newUser,'hihihihihihihiihihihihihihihihihihihihihi');
-      // Otp.doSms(newUser);
-      // const id = newUser._id;
-      // console.log(id);
-  //  req.session.userLoggedin = true;
-   res.render("users/otp")
-
+  if (olduser) {
+    return res.json({ status: "this e mail already exists" });
   }
-  // exports.otpVerify=async(req, res, next) => {
-  //   console.log('ethiii');
-  //   console.log(req.params.id);
-  //   const userdata = await User.findOne({ _id: req.params.id }).lean();
-    
-  //   otps = req.body.name;
-  //   console.log(otps);
-  //   verification=await Otp.otpVerify(otps, userdata);
-  //   if (verification) {
-  //     res.redirect('/');
-  //   }
-  //   else
-  //     res.redirect('/users/otp')
-  // }
 
-
-  exports.loginAction = async function(req,res,next){
-    console.log(req.body);
-    if (!req.body.email || !req.body.password) return res.render('users\\login', {msg: 'User Empty'})
-
-    const userData= await User.findOne({email:req.body.email});
-    console.log(userData);
-
-    if (!userData) return res.render('users\\login', {msg: 'User not Found'})
-    console.log('ivde ithi');
-
-    const correct = await bcrypt.compare(req.body.password, userData.password);
-    if (!correct) return res.render('users\\login', {msg: 'password incorrect'})
-    console.log("email id compared");
-
-    if(userData.active==false) return res.send("user is blocked")
-    
-     req.session.userLoggedin = true;
-
-    res.render("home-01.hbs")
-
-  }
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////SIGNUPACTION////////////////////
-// exports.signupAction = async (req, res) => {
-//   try {
+  let newUser = await User.create(req.body)
    
-//     const olduser = await User.findOne({ email: req.body.email });
-//     if (olduser) {
-//       console.log("checking for old user");
-//       return res.json({ status: "faileddd" });
-//     }
-//       const newUser = await new User({
-//         fname: req.body.fname,
-//         lname: req.body.lname,
-//         email: req.body.email.toLowerCase(),
-//         number: req.body.number,
-//         password: req.body.password,
-//         confirmPassword: req.body.confirmPassword,
-//       });
-//       newUser.save();
-//       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-//         expiresIn: process.env.JWT_EXPIRES_IN,
-        
-//       });
-//       // user.token=token
-//       // return token
-//       console.log(token);
-//       //console.log('hi');
-//       res
-//         .cookie("jwt", token, { JWT_EXPIRES_IN, httpOnly: true })
-//         .status(201)
-//         .render('viwes/users/home-01.hbs')
-//         .json({
-//           status: "success",
-//           token,
-//           data: {
-//             user: newUser,
-//           },
-          
-//         });
-//     }
-//    catch (err) {
-//     res.status(400).json({
-//       status: "fail",
-//       message: err,
-//     });
-//   }
-// };
+    //console.log("new user",newUser)
+    twilioController.sendOtp(newUser)
 
-// ////////////////////////LOGINACTION/////////////////
-// exports.loginAction = async (req, res) => {
-//   try {
-//     const user = await User.findOne({ email: req.body.email });
-//     if (user) {
-//       const validate = await bcrypt.compare(req.body.password, user.password);
-      
-//       if (validate) {
-//         const token = jwt.sign({ user }, process.env.JWT_SECRET);
-//         res.cookie("jwt", token, { JWT_EXPIRES_IN:"1h", httpOnly: true }).json({message:"this is cookie page"});
-        
-//       } else {
-//         res.json({ status: 200, message: "Invaild Email Or Password" });
-//       }
-//     } else {
-//       res.json({ status: 200, message: "Please signin" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+    let id = newUser._id
+    res.render('users/otp',{id})
+  
+ 
+  
+};
 
-// module.exports = {
-//      getHome :  function (req, res, next) {
-//         res.render("index");
-//       },
-//        getLogin : function (req, res, next) {
-//         res.render("users/login");
-//       },
-//        getSignup : function (req, res, next) {
-//         res.render("users/signup");
-//       },
-//       signupAction : async (req,res) =>{
-//         try
-//         {
-//               //console.log(token)
-//              console.log(req.body)
-//      const newUser = await User.signupAction(req.body)
-//         //     fname: req.body.fname,
-//         //     lname: req.body.lname,
-//         //     email :req.body.email,
-//         //     number:req.body.number,
-//         //     password:req.body.password,
-//         //     confirmPassword:req.body.confirmPassword
 
-//         //   })
-//          //console.log(newUser);
-//           //const token = jwt.sign({id:newUser._id}, process.env.JWT_SECRET, {expiresIn :process.env.JWT_EXPIRES_IN})
-//           //console.log(token)
-//            //console.log('hi');
-//                res.status(201).json({
-//                    status:'success',
 
-//                    data:{
-//                        user:newUser
-//                    }
-//                });
-//         } catch(err){
-//                res.status(400).json({
-//                    status:'fail',
-//                    message:err
-//                })
-//            }
 
-//        }
 
-//     }
 
-//     //   postSignupAction : async (req, res,next)  => {
-//     //     try{
-//     //       const password=req.body.password
-//     //       const cpassword= req.body.confirmPassword
-//     //       if(password===cpassword){
-//     //         const signupUser= await Signup.create({  //this User is the model requird above .signupUser is a instance of the  User collection
-//     //           fname:req.body.fname,
-//     //           lname:req.body.lname,
-//     //           email:req.body.email,
-//     //            number:req.body.number,
-//     //            password:password,
-//     //           confirmPassword:cpassword
+//////////////////////LOGIN ACTION///////////////////
 
-//     //         })
+exports.loginAction = async function (req, res, next) {
+ // console.log(req.body);
+  if (!req.body.email || !req.body.password)
+    return res.render("users\\login", { msg: "User Empty" ,  noHeaders: true });
 
-//             //console.log("the success part"+signupUser);
-//            // const token= await signupUser.generateAuthToken()
+  const userData = await User.findOne({ email: req.body.email });
+ // console.log(userData);
 
-//             // const signedup= await signupUser.save()
-//             // res.status(200).render("home-01.hbs")
+  if (!userData) return res.render("users\\login", { msg: "User not Found " ,  noHeaders: true });
+ // console.log("ivde ithi");
 
-//         //   }else{
-//         //     res.send("paswors are not matchig")
-//         //   }
+  const correct = await bcrypt.compare(req.body.password, userData.password);
+  if (!correct)
+    return res.render("users\\login", { msg: "password incorrect" ,  noHeaders: true });
+ // console.log("email id compared");
 
-//         // }catch(err){
-//         //   res.status(400).send(err)
-//         //   console.log("the erroer part page");
-//         // }
+  if (userData.active == false ) return res.send("user is blocked");
+  let session = req.session;
+  //this session wil have all the details about the session
+  
+  session.loggedIn = true;
+  session.user = userData; 
+ //session.user will have the details of the user that logged in 
+ 
+ 
 
-// // module.exports = {
-// //     doSignup: (userData)=>{
-// //         console.log(userData);
-// //         return new Promise(async (resolve,reject)=>{
-// //             let user = await db.findOne({email:userData.email})
-// //             const state = {
-// //                 userExist: false,
-// //                 user: null
-// //             }
-// //             if(!user){
-// //                 userData.password = await bcrypt.hash(userData.password, 10)
-// //                 db.create(userData).then((data)=>{
-// //                     console.log(data,"vishnu kuttan")
-// //                     state.userExist = false
-// //                     state.user = userData
-// //                     state.email = userData.email
-// //                     resolve(state)
-// //                 })
-// //             }else{
-// //                 state.userExist=true
-// //                 resolve(state)
-// //             }
-// //         })
-// //     },
-// //     doLogin: (userData) => {
-// //         console.log(userData);
-// //         return new Promise(async (resolve, reject) => {
-// //             let loginStatus = false;
-// //             let response = {};
-// //             let user = await db.findOne({ email: userData.email })
-// //             console.log(user)
-// //             if (user) {
-// //                 bcrypt.compare(userData.password,user.password).then((status) => {
+  res.redirect("/");
+};
 
-// //                     console.log(userData.password);
-// //                     if (status) {
-// //                         console.log(status);
-// //                         console.log("login success");
-// //                         response.user = user;
-// //                         response.status = true;
-// //                         response.email = user.email;
-// //                         resolve(response);
-// //                     } else {
-// //                         console.log("login failed");
-// //                         resolve({ status: false })
-// //                     }
-// //                 })
-// //             } else {
-// //                 console.log("failed");
-// //                 resolve({ status: false })
-// //             }
-// //         })
-// //     }
-// // }
+
+
+exports.getlogout = function (req, res) {
+  req.session.loggedIn = false;
+  res.redirect("/");
+};
+
+
+
+exports.viewproduct = async function (req, res,next) {
+  try {
+    id=req.params.id
+  
+    //this id have the id of the product becuse in idex page we passed the id on the onclick which is under product each loop .and that id is recived in the routes
+    const productDetails= await Product.findOne({_id:id}).populate('category').lean()
+    //populated because to find give the breadcrumbs on the viewproducts page
+    //the productDetails have the all the details about the product like brand,name, etc of the particular produt that is clicked
+    let session = req.session;
+    let cartcount= await count.getCartCount(req,res);
+    let wishlistcount=await count.getWishlistCount(req,res);
+     res.render("users/viewProducts",{productDetails,session,cartcount,wishlistcount});
+  } catch (error) {
+    next(error)
+    
+  }
+
+
+  
+};
+// exports.getUserProfile=function(req,res){
+//   res.render("users/userProfile")
+// }
+exports.orders = async function(req,res){
+  userId = req.session.user
+  let orderData= await orderModel.find({userId:userId._id}).sort({createdAt:-1}).populate('products.productId').lean()
+  //console.log(orderData,"this is shibilyy");
+  
+  for (let i = 0; i < orderData.length; i++) {
+    if (orderData[i].status=="cancelled") {
+      orderData[i].cancelled=true
+    }else if(orderData[i].status=="Delivered"){
+      orderData[i].Delivered=true
+    }
+   
+    }
+
+  let userData=await User.findOne({_id:userId}).lean()
+  
+  let session = req.session;
+  //let status = await orderModel.find({userId:userId}).select({status:"cancelled"}).lean()
+  let cartcount= await count.getCartCount(req,res);
+  let wishlistcount=await count.getWishlistCount(req,res);
+ 
+
+res.render("users/orders" ,{userData,orderData,session,cartcount,wishlistcount})
+}
+
+exports.emptyCart= function (req,res){
+  res.render("users/emptyCart")
+
+}
+
+exports.viewShop=async function (req,res){
+  const product = await Product.find().populate('category').lean();
+
+let categoryData=await Category.find().lean()
+let session = req.session;
+let cartcount= await count.getCartCount(req,res);
+let wishlistcount=await count.getWishlistCount(req,res);
+
+
+  res.render("users/shop",{product, session ,categoryData,cartcount,wishlistcount})
+}
+  

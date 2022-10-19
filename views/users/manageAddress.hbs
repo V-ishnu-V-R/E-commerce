@@ -1,0 +1,154 @@
+
+<div class="container text-justify ">
+<form action="/addAddress" method="post" class="text-justify" id="addAddress">
+<h2 class="mb-4"> Add New Address</h2>
+    <div class="">
+        <div class="form-group col-lg-5">
+            <label for="inputAddress2">First Name</label>
+            <input type="text" name="firstName" class="form-control" id="firstName" placeholder="Enter Your First name">
+        </div>
+        <div class="form-group col-lg-5">
+            <label for="inputAddress2">Last Name</label>
+            <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Enter Your Last name" value="" required='' data-msg-required='Please provide name.'>
+        </div>
+    </div>
+    <div class="form-group col-lg-5 ">
+        <label for="inputEmail4">Phone number</label>
+        <input type="number" name="phoneNumber" class="form-control" id="inputEmail4" placeholder="Phone Number">
+    </div>
+
+    <div class="form-group col-lg-5 ">
+        <label for="inputEmail4">Email</label>
+        <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+    </div>
+    <div class="form-group col-lg-5">
+        <label for="inputAddress2">Address </label>
+        <input type="text" name="address" class="form-control" id="address" placeholder="Apartment, studio, or floor">
+    </div>
+    <div >
+        <div class="form-group col-lg-5">
+            <label for="inputCity">City</label>
+            <input type="text" name="city" class="form-control" id="inputCity">
+        </div>
+        
+        <div class="form-group col-md-5">
+            <label for="inputCity">State</label>
+            <input type="text" name="state" class="form-control" id="state">
+        </div>
+       
+        <div class="form-group col-md-2">
+            <label for="inputZip">Zip</label>
+            <input type="number" name="pincode" class="form-control" id="inputZip">
+        </div>
+        <div class="form-group col-md-5">
+            <label for="inputCity">Landmark</label>
+            <input type="text" name="landMark" class="form-control" id="landMark">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+                Check me out
+            </label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add address</button> 
+</form>
+
+</div>
+
+{{!-- form validation --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style>
+  .error{
+    color: rgb(242, 9, 9);
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+
+
+<script>
+  jQuery.validator.addMethod("lettersonly", function(value, element) {
+  return this.optional(element) || /^[a-z]+$/i.test(value);
+}, "Letters only please"); 
+
+    $("#addAddress").validate({
+
+
+        rules: {
+            firstName: {
+                required: true,
+                minlength: 2,
+                lettersonly:true
+
+            },
+            lastName: {
+                required: true,
+                minlength: 2,
+                lettersonly:true
+            },
+
+            email: {
+                required: true,
+                email: true
+            },
+
+            phoneNumber: {
+                required: true,
+                minlength: 10,
+                maxlength:10
+            },
+
+            state: {
+                required: true
+            
+
+            },
+             city: {
+                required: true
+                
+
+            },
+              landMark: {
+                required: true
+                
+
+            },
+              pincode: {
+                required: true,
+                 minlength: 6,
+                maxlength:6
+                
+
+            },
+            address:{
+                required:true
+            }
+
+
+            
+
+
+        }
+        messages: {
+            
+            pincode:{
+                required:"enter a valid email"
+            }
+        }
+    })
+
+
+</script>
+
+
+
+
+

@@ -46,9 +46,11 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
+                    <h2 class="text-primary">Timeless</h2>
+                     <br>
+                     <h5 class="text-primary">Admin Panel</h5>
                 </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
+                {{!-- <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
@@ -57,7 +59,7 @@
                         <h6 class="mb-0">Jhon Doe</h6>
                         <span>Admin</span>
                     </div>
-                </div>
+                </div> --}}
                 <div class="navbar-nav w-100">
                     <a href="/admin/dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     {{!-- <div class="nav-item dropdown">
@@ -71,6 +73,9 @@
                     <a href="/admin/products" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Products</a>
                     <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
                     <a href="/admin/users" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Users</a>
+                    <a href="/admin/userManage" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Orders</a>
+                    <a href="/admin/bannerTable" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+                    <a href="/admin/couponTable" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Coupon</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
@@ -97,49 +102,11 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
+                {{!-- <form class="d-none d-md-flex ms-4">
                     <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
+                </form> --}}
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
+                    <a href="/admin/logout">   <button type="button" class="btn btn-secondary m-2">Logout</button></a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
@@ -164,7 +131,7 @@
                             <a href="#" class="dropdown-item text-center">See all notifications</a>
                         </div>
                     </div>
-                    <div class="nav-item dropdown">
+                    {{!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
@@ -174,15 +141,15 @@
                             <a href="#" class="dropdown-item">Settings</a>
                             <a href="#" class="dropdown-item">Log Out</a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </nav>
                        <div class="col-12  ">
                         <div class="bg-secondary rounded h-100 m-4 p-3">
-                            <h6 class="">Responsive Table</h6>
+                            <h2 class="">User Management</h2>
                             <div class="table-responsive ">
-                                <table class="table">
-                                    <thead>
+                                <table class="table table-bordered ">
+                                    <thead class="bg-dark">
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">First Name</th>
@@ -198,7 +165,7 @@
                                     <tbody>
                                         {{#each userDetails}}
                                         <tr>
-                                            <th scope="row">{{@index}}</th>
+                                            <th scope="row">{{inc @index}}</th>
                                             <td>{{this.fname}}</td>
                                             <td>{{this.lname}}</td>
                                             <td>{{this.email}}</td>

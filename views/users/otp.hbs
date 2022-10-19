@@ -1,86 +1,47 @@
+<!DOCTYPE html>
+<html>
+
 <head>
-  <link rel="stylesheet" href="/css/users-style/otp.css" />
+    <title>OTP Verification</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<div
-  class="container height-100 d-flex justify-content-center align-items-center"
->
-  <div class="position-relative">
-    <div class="card p-2 text-center">
-      <h6>Please enter the one time password <br /> to verify your account</h6>
-      <div>
-        <span>A code has been sent to</span>
-        <small>*******9897</small>
-      </div>
-      <form method="post" action="/otpverify/{{id}}">
-        <div
-          id="otp"
-          class="inputs d-flex flex-row justify-content-center mt-2"
-        >
-          <input
-            class="m-2 text-center form-control rounded"
-            type="number"
-            id="first"
-            name="number"
-            maxlength="6"
-          />
-          <input
-            class="m-2 numbe-center form-control rounded"
-            type="number"
-            id="second"
-            name="number"
-            maxlength="1"
-          />
-          <input
-            class="m-2 text-center form-control rounded"
-            type="number"
-            name="number"
-            id="third"
-            maxlength="1"
-          />
-          <input
-            class="m-2 text-center form-control rounded"
-            type="number"
-            name="number"
-            id="fourth"
-            maxlength="1"
-          />
-          <input
-            class="m-2 text-center form-control rounded"
-            type="number"
-            name="number"
-            id="fifth"
-            maxlength="1"
-          />
-          <input
-            class="m-2 text-center form-control rounded"
-            type="number"
-            id="sixth"
-            name="number"
-            maxlength="1"
-          />
-        </div>
 
-        <div class="mt-4">
-          <button
-            type="submit"
-            class="btn btn-danger px-4 validate"
-          >Validate</button>
+<body>
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card text-center">
+            <div class="card-header p-5">
+                <img src="/logo/logo1.png">
+                <h5 class="mb-2">OTP VERIFICATION</h5>
+                <div>
+                    <small>code has been send to +91**{{number}}</small>
+                </div>
+            </div>
+
+            <form action="/otp/{{id}}" id="otp-form" method="post">
+                <div class="form-outline mb-4">
+                    <input type="number" name="otp" id="form3Example4cdg" class="form-control form-control-lg"
+                        placeholder="OTP" />
+                    {{!-- <label class="form-label" for="form3Example4cdg">Password</label> --}}
+                </div>
+                {{#if invalid}}
+                <p class="text-danger">{{invalid}}</p>
+
+
+                {{/if}}
+                <div>
+
+                    <small>
+                        didn't get the otp
+                        <a href="#" class="text-decoration-none">Resend</a>
+                    </small>
+                </div>
+                <div class="mt-3 mb-5">
+                    <button class="btn btn-success px-4 verify-btn" type="submit">verify</button>
+                </div>
+            </form>
+
         </div>
-      </form>
     </div>
-  </div>
-</div>
-<script>
-  document.addEventListener("DOMContentLoaded", function(event) { function
-  OTPInput() { const inputs = document.querySelectorAll('#otp > *[id]'); for
-  (let i = 0; i < inputs.length; i++) { inputs[i].addEventListener('keydown',
-  function(event) { if (event.key==="Backspace" ) { inputs[i].value='' ; if (i
-  !==0) inputs[i - 1].focus(); } else { if (i===inputs.length - 1 &&
-  inputs[i].value !=='' ) { return true; } else if (event.keyCode> 47 &&
-  event.keyCode < 58) { inputs[i].value=event.key; if (i !==inputs.length - 1)
-  inputs[i + 1].focus(); event.preventDefault(); } else if (event.keyCode> 64 &&
-  event.keyCode < 91) { inputs[i].value=String.fromCharCode(event.keyCode); if
-  (i !==inputs.length - 1) inputs[i + 0].focus(); event.preventDefault(); } }
-  }); } } OTPInput(); });
-</script>
+</body>
 
+</html>

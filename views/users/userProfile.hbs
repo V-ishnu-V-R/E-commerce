@@ -1,0 +1,475 @@
+<section style="background-color: #eee;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center ">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{userDetails.fname}}{{userDetails.lname}}</h5>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Password"
+              data-whatever="@mdo">Change Password</button>
+            <br>
+            <a href="/manageAddress"> <button type="button" class="btn btn-primary mt-3 ">Manage Address</button> </a>
+            <br>
+           <a href="/orders">  <button type="button" class="btn btn-primary m-3">My orders</button> </a>
+          </div>
+          <div class="modal-footer">
+
+
+          </div>
+        </div>
+
+
+      </div>
+  
+      <div class="col-lg-8">
+        <h2>User Profile</h2>
+        <div class="card mb-4">
+          {{!-- //each --}}
+
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userDetails.fname}}</p>
+                
+              </div>
+             
+
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userDetails.lname}}</p>
+              </div>
+
+            </div>
+
+
+
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userDetails.email}}</p>
+              </div>
+            </div>
+            <hr>
+
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mobile</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userDetails.number}}</p>
+              </div>
+            </div>
+            <hr>
+
+          </div>
+
+          <div class="text-center pb-4"> <button type="button" class="btn btn-primary" data-toggle="modal"
+              data-target="#Name" data-whatever="@mdo">Edit Profile</button>
+
+          </div>
+        </div>
+        <h2>Manage Address</h2>
+
+       {{!-- address select --}}
+       <div class="accordion accordion-flush" id="accordionFlushExample">
+        {{#each addressData}}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="{{this._id}}">
+          <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse"
+            data-bs-target="#flush-collapse{{this._id}}" aria-expanded="false" aria-controls="flush-collapseOne">
+            <span class="font-weight-bold"> {{this.firstName}} &nbsp; &nbsp;{{this.lastName}} &nbsp; &nbsp;&nbsp; Ph: {{this.phoneNumber}} &nbsp;    </span>
+          </button>
+        </h2>
+        <div id="flush-collapse{{this._id}}" class="accordion-collapse collapse" aria-labelledby="{{this._id}}"
+          data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+            {{!-- addressdisplay form --}}
+            <form  action="/editAddress/{{this._id}}" method="post">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inputAddress2">First Name</label>
+                  <input type="text" class="form-control" id="inputAddress2" name="firstName" value="{{this.firstName}}">
+                </div>
+                <div class="form-group pl-5">
+                  <label for="inputAddress2">Last Name</label>
+                  <input type="text" class="form-control" name="lastName" id="inputAddress2" value="{{this.lastName}}">
+                </div>
+              </div>
+              <div class="form-group col-lg-5">
+                <label for="inputEmail4">Phone number</label>
+                <input type="number" class="form-control" name="phoneNumber" id="inputEmail4" value="{{this.phoneNumber}}">
+              </div>
+             
+              <div class="form-group col-lg-5 ">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" name="email" id="inputEmail4" value="{{this.email}}">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress2">Address </label>
+                <input type="text" class="form-control" name="address" id="inputAddress2" value="{{this.address}}">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <input type="text" class="form-control" name="city" value="{{this.city}}" id="inputCity">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputCity">State</label>
+                  <input type="text" class="form-control" name="state" value="{{this.state}}" id="inputCity">
+                </div>
+                {{!-- <div class="form-group col-md-4">
+                  <label for="inputState">State</label>
+                  <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                  </select>
+                </div> --}}
+                <div class="form-group col-md-2">
+                  <label for="inputZip">Zip</label>
+                  <input type="text" class="form-control" name="pincode" value="{{this.pincode}}" id="inputZip">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputCity">Landmark</label>
+                  <input type="text" class="form-control" name="landMark" value="{{this.landMark}}" id="inputCity">
+                </div>
+              </div>
+              {{!-- <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Check me out
+                  </label>
+                </div>
+              </div> --}}
+              <div class="text-left mt-5" >  <button type="submit" class="btn btn-primary  ">Edit address</button> </div>
+              <div class="text-right mb-7 " >  <button  type="button" onclick="deleteAddress('{{this._id}}')" class="btn btn-danger ">Delete Address</button> </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+        
+      </div>
+    </div>
+    
+      
+   
+  
+
+  </div>
+
+
+  <div class="modal mt-5 fade" id="Name" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" data-backdrop="false">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Updata Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editUserName">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">First Name</label>
+              <input type="text" name="name" id="name" class="form-control" id="recipient-name">
+            </div>
+            {{!-- <div class="form-group">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div> --}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" onclick="changeUsername('{{userDetails._id}}')" class="btn btn-primary">Update</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  {{!-- second bbutton --}}
+
+
+
+  <div class="modal fade" id="Password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          {{!-- change password form --}}
+
+          <form id="changepass">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Old Password</label>
+              <input type="text" name="oldpass" id="oldpass" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">New Password</label>
+              <input type="text" name="newpassword" class="form-control" id="newpass">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Confirm New Password</label>
+              <input type="text" name="confpassword" class="form-control" id="confnewpass">
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" onclick="changePassword('{{userDetails._id}}')" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</section>
+
+<script>
+  $("#Name").modal.fade {
+    z - index: 10000000!important;
+  }
+</script>
+
+
+
+
+
+
+
+
+{{!-- script tag start --}}
+<script>
+
+  function changeUsername(userId) {
+    event.preventDefault()
+
+    name = document.getElementById("name").value
+    console.log(name, "this is the usernamne");
+
+    $.ajax({
+      url: '/changeUsername',
+      data: {
+        userId: userId,
+        name: name
+
+      },
+      method: 'patch',
+      success: (response) => {
+        if (response) {
+          // swal("Deleted Successflly"); 
+          location.reload();
+
+        }
+      },
+      error: (error) => {
+        alert(error)
+      }
+    },)
+  } 
+</script>
+
+
+{{!-- change password form validation --}}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<style>
+  .error {
+    color: rgb(242, 9, 9);
+  }
+</style>
+
+<script>
+  jQuery.validator.addMethod("lettersonly", function (value, element) {
+    return this.optional(element) || /^[a-z]+$/i.test(value);
+  }, "Letters only please");
+
+  $("#changepass").validate({
+
+
+    rules: {
+
+
+      oldpass: {
+        required: true,
+        minlength: 6,
+        maxlength: 10
+
+      },
+
+      newpassword: {
+        required: true,
+        minlength: 6,
+        maxlength: 10
+      },
+      confpassword: {
+        required: true,
+        minlength: 6,
+        maxlength: 10,
+        equalTo:"#newpassword"
+      }
+
+
+    },
+    messages: {
+      newpassword: {
+        required: "password is 6 letters"
+
+      },
+      confpassword: {
+        equalTo: "enter the same password"
+
+      }
+    }
+  })
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+
+  function changePassword(userId) {
+    
+
+    oldPassword = document.getElementById("oldpass").value
+    newPassword = document.getElementById("newpass").value
+    confnewPassword = document.getElementById("confnewpass").value
+
+
+
+    $.ajax({
+      url: '/changePassword',
+      data: {
+        userId: userId,
+        oldpass: oldPassword,
+        newpass: newPassword,
+        confnewpass: confnewPassword
+
+
+      },
+      method: 'patch',
+      success: (response) => {
+        if (response) {
+
+          location.reload();
+
+        }
+      },
+      error: (error) => {
+        alert(error)
+      }
+    },)
+  } 
+</script>
+
+
+
+{{!-- deleteAddress --}}
+
+<script>
+  function deleteAddress (addressId ){
+
+      $.ajax({
+      url: "/deleteAddress",
+      data:{
+        addressId:addressId
+      },
+      method:"post",
+      success:(response)=>{
+        if(response){
+          location.reload();
+          alert("deltted success")
+        }
+      }
+    })
+  }
+
+  .error{
+    color: rgb(242, 9, 9);
+  }
+</style>
+
+
+<script>
+  jQuery.validator.addMethod("lettersonly", function(value, element) {
+  return this.optional(element) || /^[a-z]+$/i.test(value);
+}, "Letters only please"); 
+
+    $("#editUserName").validate({
+
+
+        rules: {
+            name: {
+                required: true,
+                minlength: 2,
+                lettersonly:true
+
+            }
+
+            
+
+
+        }
+        messages: {
+            
+            name:{
+                required:"enter a valid email"
+            }
+        }
+    })
+
+
+</script>
+
+
