@@ -63,7 +63,7 @@ router.get("/unblockUser/:id",sessionCheck.adminSessionChecker,adminController.u
 
 router.get("/add-products",sessionCheck.adminSessionChecker,adminController.getAddProducts)
 router.post("/add-products",upload.array('photos',4) ,sessionCheck.adminSessionChecker,adminController.AddProducts)
-router.get("/datatable",sessionCheck.adminSessionChecker,adminController.datatable)
+
 router.get("/deleteProduct/:id",sessionCheck.adminSessionChecker,adminController.deleteProduct) 
 
 router.get("/edit-products/:id",adminController.geteditProducts) 
@@ -87,7 +87,8 @@ router.post("/editCoupon/:id",sessionCheck.adminSessionChecker,adminController.e
 router.get("/deleteCoupon/:id",sessionCheck.adminSessionChecker,adminController.deleteCoupon)
 
 router.use((req,res,next) => {
-    next(createError(404))
+    //next(createError(404))
+    res.render("admin/error",{layout:false})
 })
 
 router.use((err,req,res,next) => {

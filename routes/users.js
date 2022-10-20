@@ -38,7 +38,7 @@ router.get("/viewProducts/:id",sessionCheck.userSessionChecker,userController.vi
 router.post("/addToCart",sessionCheck.userSessionChecker,cart.getCart)
 router.get("/viewcart",sessionCheck.userSessionChecker,cart.viewcart)
 
-router.post('/incrementQuantity',cart.increment);  
+router.post('/changeQuantity',cart.increment);  
 router.post('/deleteProduct',sessionCheck.userSessionChecker,cart.delete);
 router.post("/wishlist",sessionCheck.userSessionChecker,wishlist.addWishlist)
 router.get('/wishlistData',sessionCheck.userSessionChecker, wishlist.wishlistData);

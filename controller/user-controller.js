@@ -37,6 +37,7 @@ const bannerModel=require("../models/bannerModel")
 exports.getHome = async function (req, res, next) {
   
  
+try {
   const product = await Product.find().populate('category').lean();
   //this will have the details of the product with category as reference will get all the category deatails becuse we have populated the data
   //without poopulate means it will have only object id but not the details about the category  
@@ -52,6 +53,9 @@ let bannerData=await bannerModel.find().populate('product').lean()
   let session = req.session;
  
   res.render("index", { product, session ,categoryData,bannerData});
+} catch (error) {
+  next(error)
+}
 };
 
 
@@ -80,23 +84,27 @@ exports.getSignup = function (req, res, next) {
 
 
 
-exports.postOtp= async function(req,res){
+exports.postOtp= async function(req,res,next){
   
+try {
   const userdata = await User.findOne({ _id: req.params.id }).lean();
- //console.log(userdata);
- // console.log(req.body.otp);
-  let otps = req.body.otp;
-  let verification=await twilioController.verifyOtp(otps, userdata);
-  if (verification) {
-
-    //req.session.loggedIn = true;
-    //req.session.userId = userdata._id;
-    res.redirect('/login');
-  }
-  else {
-    await User.findOneAndDelete({ _id: req.params.id }).lean();
-    res.redirect('/signup')
-  }
+  //console.log(userdata);
+  // console.log(req.body.otp);
+   let otps = req.body.otp;
+   let verification=await twilioController.verifyOtp(otps, userdata);
+   if (verification) {
+ 
+     //req.session.loggedIn = true;
+     //req.session.userId = userdata._id;
+     res.redirect('/login');
+   }
+   else {
+     await User.findOneAndDelete({ _id: req.params.id }).lean();
+     res.redirect('/signup')
+   }
+} catch (error) {
+  next(error)
+}
 
 }
 
@@ -106,6 +114,7 @@ exports.postOtp= async function(req,res){
 
 /////////////SIGNUP ACTION/////////////////
 exports.signupAction = async function (req, res, next) {
+try {
   const olduser = await User.findOne({ email: req.body.email });
   if (olduser) {
     return res.json({ status: "this e mail already exists" });
@@ -118,6 +127,9 @@ exports.signupAction = async function (req, res, next) {
 
     let id = newUser._id
     res.render('users/otp',{id})
+} catch (error) {
+  next(error)
+}
   
  
   
@@ -132,31 +144,35 @@ exports.signupAction = async function (req, res, next) {
 
 exports.loginAction = async function (req, res, next) {
  // console.log(req.body);
+try {
   if (!req.body.email || !req.body.password)
-    return res.render("users\\login", { msg: "User Empty" ,  noHeaders: true });
+  return res.render("users\\login", { msg: "User Empty" ,  noHeaders: true });
 
-  const userData = await User.findOne({ email: req.body.email });
- // console.log(userData);
+const userData = await User.findOne({ email: req.body.email });
+// console.log(userData);
 
-  if (!userData) return res.render("users\\login", { msg: "User not Found " ,  noHeaders: true });
- // console.log("ivde ithi");
+if (!userData) return res.render("users\\login", { msg: "User not Found " ,  noHeaders: true });
+// console.log("ivde ithi");
 
-  const correct = await bcrypt.compare(req.body.password, userData.password);
-  if (!correct)
-    return res.render("users\\login", { msg: "password incorrect" ,  noHeaders: true });
- // console.log("email id compared");
+const correct = await bcrypt.compare(req.body.password, userData.password);
+if (!correct)
+  return res.render("users\\login", { msg: "password incorrect" ,  noHeaders: true });
+// console.log("email id compared");
 
-  if (userData.active == false ) return res.send("user is blocked");
-  let session = req.session;
-  //this session wil have all the details about the session
-  
-  session.loggedIn = true;
-  session.user = userData; 
- //session.user will have the details of the user that logged in 
- 
- 
+if (userData.active == false ) return res.send("user is blocked");
+let session = req.session;
+//this session wil have all the details about the session
 
-  res.redirect("/");
+session.loggedIn = true;
+session.user = userData; 
+//session.user will have the details of the user that logged in 
+
+
+
+res.redirect("/");
+} catch (error) {
+  next(error)
+}
 };
 
 
@@ -191,7 +207,8 @@ exports.viewproduct = async function (req, res,next) {
 // exports.getUserProfile=function(req,res){
 //   res.render("users/userProfile")
 // }
-exports.orders = async function(req,res){
+exports.orders = async function(req,res,next){
+try {
   userId = req.session.user
   let orderData= await orderModel.find({userId:userId._id}).sort({createdAt:-1}).populate('products.productId').lean()
   //console.log(orderData,"this is shibilyy");
@@ -214,6 +231,9 @@ exports.orders = async function(req,res){
  
 
 res.render("users/orders" ,{userData,orderData,session,cartcount,wishlistcount})
+} catch (error) {
+  next(error)
+}
 }
 
 exports.emptyCart= function (req,res){
@@ -221,15 +241,19 @@ exports.emptyCart= function (req,res){
 
 }
 
-exports.viewShop=async function (req,res){
+exports.viewShop=async function (req,res,next){
+try {
   const product = await Product.find().populate('category').lean();
 
-let categoryData=await Category.find().lean()
-let session = req.session;
-let cartcount= await count.getCartCount(req,res);
-let wishlistcount=await count.getWishlistCount(req,res);
-
-
-  res.render("users/shop",{product, session ,categoryData,cartcount,wishlistcount})
+  let categoryData=await Category.find().lean()
+  let session = req.session;
+  let cartcount= await count.getCartCount(req,res);
+  let wishlistcount=await count.getWishlistCount(req,res);
+  
+  
+    res.render("users/shop",{product, session ,categoryData,cartcount,wishlistcount})
+} catch (error) {
+  next(error)
+}
 }
   

@@ -84,7 +84,7 @@
             </div> --}}
 
             <span>
-              <div><button type="button" class="btn btn-dark  btn-sm">Add to Cart</button></div>
+              <div><button onclick="addToCart('{{this.productId._id}}');"type="button" class="btn btn-dark  btn-sm">Add to Cart</button></div>
             </span>
             <a href=""> <span>
                 <div><button onclick="deleteProduct('{{this.productId._id}}');" style="margin-left: 100px;"
@@ -147,3 +147,38 @@
     })
   }
 </script>
+
+
+
+
+
+<script>
+  function addToCart(productId){
+   //swal("Good job!","Item added to Cart","success");
+   //window.location.reload()
+  Swal.fire('Hurray!! Item added to cart')
+  
+   $.ajax({
+    url: '/addToCart',
+    data: {
+      
+      productId: productId,           
+  
+
+    },
+     method: 'post',
+    success: (response) => {
+        console.log(response)
+  //swal("Good job!","Item added to Cart","success");
+        //alert('success')
+      
+
+    },
+    error: (error) => {
+        alert('hi error')
+        console.log(error)
+    },
+  })
+  }
+ </script>
+ <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

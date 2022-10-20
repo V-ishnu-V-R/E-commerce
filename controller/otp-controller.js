@@ -14,14 +14,10 @@ const client=require("twilio")(accountSid,authToken,serviceid)
 
 exports.sendOtp = async (userData) => {
     
-    try {
-        const data = await client.verify.v2.services(serviceid).verifications.create({
-            to: `+91${userData.number}`,
-            channel: 'sms'
-        })
-    } catch (error) {
-        console.log(error)
-    }
+    const data = await client.verify.v2.services(serviceid).verifications.create({
+        to: `+91${userData.number}`,
+        channel: 'sms'
+    })
 }
 
 exports.verifyOtp = async (otpData, userData) => {
