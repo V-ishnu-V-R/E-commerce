@@ -532,3 +532,16 @@ try {
 }
  
 }
+
+exports.salesReport=async function(req,res,next){
+
+  try {
+    let data =await orderModel.find({status:"Delivered"}).populate('products.productId' ).lean()
+  
+   
+   res.render('admin/salesReport',{data,layout:false})
+  } catch (error) {
+    next (error)
+  }
+
+}

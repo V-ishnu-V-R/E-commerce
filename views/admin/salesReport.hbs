@@ -62,43 +62,31 @@
       <!-- Sidebar Start -->
       <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-secondary navbar-dark">
-          <a href="index.html" class="navbar-brand mx-4 mb-3">
-            <h2 class="text-primary">Timeless</h2>
+         <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h2 class="text-primary">Timeless</h2>
                     <br>
                      <h5 class="text-primary">Admin Panel</h5>
-          </a>
-     
+                </a>
+  
           <div class="navbar-nav w-100">
-            <a href="/admin/dashboard" class="nav-item nav-link"><i
-                class="fa fa-tachometer-alt me-2"
-              ></i>Dashboard</a>
-            
-            <a href="/admin/products" class="nav-item nav-link active"><i
-                class="fa fa-th me-2"
-              ></i>Products</a>
-            <a href="/admin/category" class="nav-item nav-link "><i
-                class="fa fa-keyboard me-2"
-              ></i>Category</a>
-            <a href="/admin/users" class="nav-item nav-link"><i
-                class="fa fa-table me-2"
-              ></i>Users</a>
-              <a href="/admin/userManage" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+           <a href="/admin/dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                 
+                    <a href="/admin/products" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Products</a>
+                    <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
+                    <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Users</a>
+                    <a href="/admin/userManage" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
                     <a href="/admin/bannerTable" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Banner</a>
-                    <a href="/admin/couponTable" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Coupons</a>
-           <a href="/admin/salesReport" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Report</a>
-            <div class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-              ><i class="far fa-file-alt me-2"></i>Pages</a>
-              <div class="dropdown-menu bg-transparent border-0">
-                <a href="signin.html" class="dropdown-item">Sign In</a>
-                <a href="signup.html" class="dropdown-item">Sign Up</a>
-                <a href="404.html" class="dropdown-item">404 Error</a>
-                <a href="blank.html" class="dropdown-item">Blank Page</a>
-              </div>
-            </div>
+                    <a href="/admin/couponTable" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Coupons</a>
+                    <a href="/admin/salesReport" class="nav-item nav-link active"><i class="fa fa-chart-bar me-2"></i>Report</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="signin.html" class="dropdown-item">Sign In</a>
+                            <a href="signup.html" class="dropdown-item">Sign Up</a>
+                            <a href="404.html" class="dropdown-item">404 Error</a>
+                            <a href="blank.html" class="dropdown-item">Blank Page</a>
+                        </div>
+                    </div>
           </div>
         </nav>
       </div>
@@ -107,7 +95,8 @@
       <!-- Content Start -->
       <div class="content">
         <!-- Navbar Start -->
-        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+       
+           <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
                 </a>
@@ -145,85 +134,55 @@
                 
                 </div>
             </nav>
+        
         <!-- Navbar End -->
 
         <!-- Form Start -->
-        <div class="container-fluid pt-4 px-4">
-          <div class="row g-4">
-            <div class="col-sm-12 col-xl-6">
-              <div class="bg-secondary rounded h-100 p-4">
-                <h6 class="mb-4">Add product</h6>
-                <form action="/admin/add-products" method="post" enctype="multipart/form-data">
-                  <div class="mb-3">
-                    <label class="form-label">Brand Name</label>
-                    <input type="text" class="form-control"  name="brand"/>
-
-                  </div>
-                  <div class="mb-3">
-                    <label
-                      for="exampleInputPassword1"
-                      class="form-label"
-                    >Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="exampleInputPassword1" name="name"
-                    />
-                  </div>
-                  <p class="text-body">Category</p>
-                  <div class="form-floating mb-3">
-                    <div class="form-floating mb-3">
-                      <select
-                        class="form-select"
-                        id="floatingSelect"
-                        aria-label="Floating label select example"
-                        name="category"
-                      >
-                      {{#each categoryData}}
-
-                        {{!-- <option selected>Select the Category</option> --}}
-                        <option value={{this._id}}>{{this.Category}}</option>
-                        {{!-- <option value="women"></option>
-                        <option value="smart"></option> --}}
-                     
-                      {{/each}}
-                       </select>
-
-                    </div>
-
-                  </div>
-                   <div class="mb-3">
-                    <label class="form-label">Price</label>
-                    <input type="Number" class="form-control"  name="price"/>
-
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label"> Selling Price</label>
-                    <input type="Number" class="form-control" name="sellingPrice" />
-
-                  </div>
-                  <p class="text-body">Description</p>
-                   <div class="form-floating">
-                                <textarea name="description" class="form-control" placeholder="Leave a comment here"
-                                    id="floatingTextarea" style="height: 150px;"></textarea>
-                                <label for="floatingTextarea">Description goes here</label>
-                            </div>
-                             
-                             <div class="mb-3" style="padding: top 5px; ;">
-                                <label for="formFileMultiple" class="form-label">Choose Product Images</label>
-                                <input name="photos" class="form-control bg-dark" type="file" id="formFileMultiple" multiple>
-                            </div>
+     <div class="sales-Report " style="padding:70px ;">
 
 
+        <div class="title">
+     <a href="/admin/dashboard">
+     <button class="btn-btn-primary ml-50px">Go to home</button>
+     </a>        
 
-                  <button type="submit" class="btn btn-primary">Add Product</button>
-                </form>
-              </div>
-            </div>
-
-          </div>
+            <h2 class="section--title">Orders</h2>
 
         </div>
+        <div class="table">
+            <table id="salesReport-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Products</th>
+                        <th>Qty</th>
+                        <th>Payment method</th>
+                        <th>TotalPrice</th>
+                        {{!-- <th> Total revenue</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data }}
+                    <tr>
+                        <td>{{formatString this.createdAt}}</td>
+                        <td>{{this.billingAddress.[0].firstName}}</td>
+                        <td>{{#each this.products}}{{this.productId.name}}<br>
+                            {{/each}}</td>
+                        <td>{{#each this.products}}{{this.quantity}}<br>{{/each}}</td>
+                     
+                        <td>{{this.paymentMethod}}</td>
+                           <td>{{this.grandTotal}}</td>
+
+
+                    </tr>
+                    {{/each}}
+
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
         <!-- Form End -->
 
         <!-- Footer Start -->
@@ -258,3 +217,54 @@
   </body>
 
 </html>
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+ 
+
+
+
+   
+ 
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+
+
+    {{!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#salesReport-table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+
+    <style>
+        .button.dt-button, 
+        {
+            color:white ;
+        }
+        .buttons-copy {
+            color:white ;
+
+        }
+      .buttons-html5{
+        color:white ;
+
+      }
+      .dt-buttons{
+        color:red ;
+      }
+    </style>

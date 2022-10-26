@@ -29,10 +29,10 @@ res.render("users/userProfile",{userDetails,session,addressData,cartcount,wishli
 exports.changeUsername=async function(req,res,next){
     
   try {
-    userId=req.session.user
+    userId=req.session.user._id
     
 
-    await userModel.findOneAndUpdate({userId:userId._id},{$set:{"fname":req.body.name}})
+    await userModel.findOneAndUpdate({_id:userId},{$set:{"fname":req.body.name}})
     res.json({})
   } catch (error) {
     next(error)
@@ -41,12 +41,12 @@ exports.changeUsername=async function(req,res,next){
 }
 exports.changePassword=  async function (req, res,next){
 try {
-    userId=req.session.user
+    userId=req.session.user._id
 // console.log(req.body.oldpass);
 // console.log(req.body.newpass);
 // console.log(req.body.confnewpass);
 //  console.log("the changae password func is workinfg");
-let userData = await userModel.findOne({userId:userId})
+let userData = await userModel.findOne({_id:userId})
 let correct = await bcrypt.compare(req.body.oldpass,userData.password)
 // if(req.body==null){
 //     alert("please fill the form")
@@ -98,6 +98,7 @@ exports.addAddress= async function(req,res,next){
 
 
 exports.deleteAddress= async function(req,res,next){
+  console.log("this is delete address888888888888888888888888888")
 
 try {
     let deleteId=req.body.addressId

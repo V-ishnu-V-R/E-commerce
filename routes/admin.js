@@ -85,6 +85,7 @@ router.post("/addCoupon",sessionCheck.adminSessionChecker,adminController.addCou
 router.get("/editCoupon/:id",sessionCheck.adminSessionChecker,adminController.getEditCoupon)
 router.post("/editCoupon/:id",sessionCheck.adminSessionChecker,adminController.editCoupon)
 router.get("/deleteCoupon/:id",sessionCheck.adminSessionChecker,adminController.deleteCoupon)
+router.get("/salesReport",sessionCheck.adminSessionChecker,adminController.salesReport)
 
 router.use((req,res,next) => {
     //next(createError(404))

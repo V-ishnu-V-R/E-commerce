@@ -117,7 +117,7 @@ exports.signupAction = async function (req, res, next) {
 try {
   const olduser = await User.findOne({ email: req.body.email });
   if (olduser) {
-    return res.json({ status: "this e mail already exists" });
+    return res.render("users\\signup", { msg: "User Already exixts" ,  noHeaders: true });
   }
 
   let newUser = await User.create(req.body)
@@ -151,15 +151,15 @@ try {
 const userData = await User.findOne({ email: req.body.email });
 // console.log(userData);
 
-if (!userData) return res.render("users\\login", { msg: "User not Found " ,  noHeaders: true });
+if (!userData) return res.render("users/login", { msg: "User not Found " ,  noHeaders: true });
 // console.log("ivde ithi");
 
 const correct = await bcrypt.compare(req.body.password, userData.password);
 if (!correct)
-  return res.render("users\\login", { msg: "password incorrect" ,  noHeaders: true });
+  return res.render("users/login", { msg: "Password incorrect" ,  noHeaders: true });
 // console.log("email id compared");
 
-if (userData.active == false ) return res.send("user is blocked");
+if (userData.active == false ) return res.send("User is blocked");
 let session = req.session;
 //this session wil have all the details about the session
 
